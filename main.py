@@ -1,4 +1,5 @@
 class Student:
+    marks = []
     #ФИО, пол, возраст, телефон, почта, курс, оценки
     def __init__(self, number, fio, gender, age, tel, email, kurs, marks):
         self.number = int(number)
@@ -9,6 +10,8 @@ class Student:
         self.email = email
         self.kurs = int(kurs)
         self.marks = marks
+        #for key, val in marks.items():
+        #   print(key, '-', val)
 
     # Метод добавления оценок для студента.
 
@@ -29,9 +32,6 @@ class Student:
     def __eq__(self, other):
         return self.kurs == other.kurs
 
-#Методы: вывод всех
-#студентов группы. Вывод всех мальчиков/ девочек группы. Предусмотреть операции
-#сравнения по количеству студентов в группе.
 class Group:
     #Группы – содержат студентов; Атрибуты: название, номер.
     def __init__(self, title, nomer, students=None):
@@ -48,16 +48,29 @@ class Group:
     def __str__(self):
         return f"Группа: {self.nomer}{self.title}, Количество сотрудников: {len(self.students)}"
 
-    # Вывод сотрудников отдела
+    # вывод всех студентов группы.
     def print_students(self):
         for stud in self.students:
             print(stud)
 
-    # Вывод сотрудников отдела в отпуске/не в отпуске
-    #def print_employees_on_leave(self, status=True):
-    #    for emp in self.employees:
-    #        if emp.on_leave == status:
-    #            print(emp.number, emp.fio)
+    # Вывод всех мальчиков/ девочек группы.
+    def print_boys(self):
+        for stud in self.students:
+            if stud.gender == "м":
+                print(stud)
+
+    def print_girls(self):
+        for stud in self.students:
+            if stud.gender == "ж":
+                print(stud)
+
+    # Предусмотреть операции сравнения по количеству студентов в группе.
+    def __lt__(self, other):
+        return len(self.students) < len(other.students)
+    def __le__(self, other):
+        return len(self.students) <= len(other.students)
+    def __eq__(self, other):
+        return len(self.students) == len(other.students)
 
 
 stud_1 = Student(1, 'Кагарманов Родион Радикович', 'м', '20', '890478747976', 'test@test,ru', '2',
@@ -78,3 +91,15 @@ group_1.append(stud_1)
 group_1.append(stud_2)
 print(group_1)
 group_1.print_students()
+
+print('Вывод мальчиков')
+group_1.print_boys()
+print('Вывод девочек')
+group_1.print_girls()
+
+stud_3 = Student(1, 'Тест Тест Тест', 'м', '18', '890478747976', 'test@test,ru', '1',
+                 {"отлично" : 5, "хорошо" : 3, "удовлетворительно" : 2, "неудовлетворительно" : 0})
+group_2 = Group('ИС', 205)
+group_2.append(stud_3)
+
+print(group_2 > group_1)
